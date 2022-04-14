@@ -1,0 +1,25 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+  - name: copy petclinic jar file
+    copy:
+      src: app.jar
+      dest: /home/vagrant/app.jar
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: install java
+    apt:
+      name: "{{ packages }}"
+      state: present
+    vars:
+      packages:
+        - openjdk-11-jdk
+
+
+  - name: exeucte jar file
+    command:
+      cmd: java -jar app.jar
